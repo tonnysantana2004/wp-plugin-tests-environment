@@ -1,0 +1,43 @@
+name: wp-plugin-testing-environment
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    volumes:
+      - ./.db_container_volume:/var/lib/mysql
+    restart: unless-stopped
+    env_file:
+      - .env
+    expose:
+      - 3306
+      - 33060
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    
+  wordpress:
+    container_name: wordpress
+    build:
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - ./.wp_container_volume:/var/www/html
+      - ../.:/var/www/html/wp-content/plugins/wp-advertisement
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    depends_on:
+      - wordpress
+    ports:
+      - 80:80
+    volumes:
+      - ./.wp_container_volume:/var/www/html
+      - ./conf.d:/etc/nginx/conf.d
