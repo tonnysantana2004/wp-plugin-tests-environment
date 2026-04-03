@@ -24,7 +24,7 @@ services:
       dockerfile: dockerfile
     volumes:
       - ./.wp_container_volume:/var/www/html
-      - ../.:/var/www/html/wp-content/mu-plugins/${PLUGIN_SLUG}
+      - ../.:/var/www/html/wp-content/plugins/${PLUGIN_SLUG}
     restart: always
     env_file:
       - .env
