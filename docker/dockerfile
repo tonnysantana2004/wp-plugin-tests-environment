@@ -24,4 +24,4 @@ COPY install-wp-tests.sh /install-wp-tests.sh
 
 # Generate tests dependencies
 # @todo use env to the parameters
-RUN bash /install-wp-tests.sh wordpress wordpress 'wordpress' mysql latest true
+RUN bash /install-wp-tests.sh ${TEST_WORDPRESS_DB_NAME} ${TEST_WORDPRESS_DB_USER} ${TEST_WORDPRESS_DB_PASSWORD} ${TEST_WORDPRESS_DB_HOST} latest ${TEST_WORDPRESS_SKIP_DATABASE}
