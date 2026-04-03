@@ -15,13 +15,13 @@ RUN wget -O wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-
     mv wp /usr/local/bin/wp
 
 # Installing phpunit
-RUN wget -O phpunit https://phar.phpunit.de/phpunit-11.phar&& \
+RUN wget -O phpunit https://phar.phpunit.de/phpunit-9.6.16.phar && \
     chmod +x phpunit && \
-    mv phpunit /usr/local/bin/phpunit
+    mv phpunit /usr/local/bin/phpunit && \
+    phpunit --version
 
 # Copy shell script
 COPY install-wp-tests.sh /install-wp-tests.sh
 
 # Generate tests dependencies
-# @todo use env to the parameters
-RUN bash /install-wp-tests.sh ${TEST_WORDPRESS_DB_NAME} ${TEST_WORDPRESS_DB_USER} ${TEST_WORDPRESS_DB_PASSWORD} ${TEST_WORDPRESS_DB_HOST} latest ${TEST_WORDPRESS_SKIP_DATABASE}
+RUN bash /install-wp-tests.sh wordpress wordpress 'wordpress' mysql latest false
