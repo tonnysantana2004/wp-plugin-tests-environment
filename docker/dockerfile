@@ -8,6 +8,13 @@ RUN wget -O wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-
     chmod +x wp && \ 
     mv wp /usr/local/bin/wp
 
+# Installing phpunit
+RUN wget -O phpunit https://phar.phpunit.de/phpunit-9.6.16.phar && \
+    chmod +x phpunit && \
+    mv phpunit /usr/local/bin/phpunit && \
+    phpunit --version
+
+
 # Installing composer
 RUN wget -O composer https://getcomposer.org/composer-stable.phar && \
     chmod +x composer && \

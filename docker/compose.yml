@@ -22,6 +22,7 @@ services:
     build: .
     command: sh /entrypoint.sh
     tty: true
+    stdin_open: true
     volumes:
     
       # Entrypoint

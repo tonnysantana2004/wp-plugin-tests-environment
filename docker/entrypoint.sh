@@ -23,13 +23,14 @@ sleep 2
 
 bash /install-wp-tests.sh wordpress_test root 'wordpress' mysql latest
 
-echo ---------------------------------
-printf "\033[44m\033[1m Setting up the wordpress credentials... \033[0m\n"
-echo ---------------------------------
-
 sleep 2
 
 if ! wp core is-installed --allow-root; then
+  
+  echo ---------------------------------
+  printf "\033[44m\033[1m Setting up the wordpress credentials... \033[0m\n"
+  echo ---------------------------------
+
   wp core install \
     --title="The Website" \
     --admin_user="user" \
@@ -46,7 +47,9 @@ echo ---------------------------------
 
 sleep 2
 
-wp scaffold plugin $PLUGIN_SLUG --allow-root --force
+if ! wp plugin is-installed $PLUGIN_SLUG --allow-root; then
+  wp scaffold plugin $PLUGIN_SLUG --allow-root
+fi
 cd wp-content/plugins/$PLUGIN_SLUG
 
 composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
