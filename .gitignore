@@ -4,14 +4,10 @@ phpunit.xml
 Thumbs.db
 wp-cli.local.yml
 node_modules/
-vendor/*
-
-# Ensure the autoload is not ignored.
-!vendor/composer
-!vendor/autoload.php
-
+vendor/
 *.sql
 *.tar.gz
 *.zip
-.wp_container_volume
-.db_container_volume
+
+**/.db_container_volume
+**/.wp_container_volume
