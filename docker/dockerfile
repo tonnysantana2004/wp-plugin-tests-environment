@@ -1,8 +1,3 @@
-# This image will be responsible for creating the 2 Environments:
-
-# - A fresh instalation with the files on the path above.
-# - A copy from the first one, where we will load the php unit tests.
-# Parent image
 FROM wordpress:php8.2-fpm-alpine
 
 # Installing dependencies
@@ -12,12 +7,6 @@ RUN apk add --no-cache subversion mysql-client mariadb-connector-c
 RUN wget -O wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp && \ 
     mv wp /usr/local/bin/wp
-
-# Installing phpunit
-RUN wget -O phpunit https://phar.phpunit.de/phpunit-9.6.16.phar && \
-    chmod +x phpunit && \
-    mv phpunit /usr/local/bin/phpunit && \
-    phpunit --version
 
 # Installing composer
 RUN wget -O composer https://getcomposer.org/composer-stable.phar && \
