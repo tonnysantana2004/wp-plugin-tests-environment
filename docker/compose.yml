@@ -23,24 +23,17 @@ services:
   wordpress:
     container_name: wordpress
     build: .
-    command:
-       # Install the Wordpress
-       - wp core install --title="The Website" --admin_user="user" --admin_password="password" --admin_email="email@email.com" --skip-email
-
-       # Create the plugin Folder
-       - wp scaffold plugin ${PLUGIN_SLUG} --allow-root
-
-       # Install composer dependencies
-       - composer require --dev phpunit/phpunit@^9.6
-       - composer install
-      
-      # Install the Test Wordpress
-       - sh -c "bash /install-wp-tests.sh 'test_wordpress' 'root' 'wordpress' mysql 'latest'
-       - docker-entrypoint.sh php-fpm"
+    command: sh /entrypoint.sh
     volumes:
+    
+      # Entrypoint
+      - ./install-wp-tests.sh:/install-wp-tests.sh
+      - ./entrypoint.sh:/entrypoint.sh
+
+      # File paths
       - ./.wp_container_volume:/var/www/html
       - ../.:/var/www/html/wp-content/plugins/${PLUGIN_SLUG}
-      - ./install-wp-tests.sh:/install-wp-tests.sh
+
     restart: unless-stopped
     environment:
       - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
