@@ -67,11 +67,11 @@ cd wp-content/plugins/my-plugin#
 
 #### Install the plugin core dependencies
 ```
-composer install -W
+composer install 
 ```
 Follow the cli instructions to ensure that everything was installed correctly.
 
-#### Open the file phpunit.xml.dist, and change the field testsuites to this:
+#### Open the file phpunit.xml.dist, and change the field "testsuites" to this:
 ```
 <testsuites>
 	<testsuite name="testing">
@@ -80,30 +80,10 @@ Follow the cli instructions to ensure that everything was installed correctly.
 </testsuites>
 ```
 
-#### Inside the folder "/tests", on the file test-sample.php, change the file name to "SampleTest.php". And also the class name from TestSample to SampleTest.
+#### Inside the folder "/tests", on the file test-sample.php, change the file name to "SampleTest.php"
 ```
+/tests/test-sample.php
 /tests/SampleTest.php*
-
-<?php
-/**
- * Class SampleTest
- *
- * @package My_Plugin
- */
-
-/**
- * Sample test case.
- */
-class SampleTest extends WP_UnitTestCase {
-
-	/**
-	 * A single example test.
-	 */
-	public function test_sample() {
-		// Replace this with some actual testing code.
-		$this->assertTrue( true );
-	}
-}
 
 ```
 #### Try running on the terminal the command "phpunit", If it causes an error about the  PHPUnit Polyfills Library, you need to add this code on the top of the tests/bootstrap.php file:
