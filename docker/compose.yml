@@ -2,7 +2,7 @@ name: wp-plugin-testing-environment
 services:
   mysql:
     container_name: ${WORDPRESS_DB_HOST}
-    image: mysql:latest
+    image: mysql:8
     volumes:
       - ./.db_container_volume:/var/lib/mysql
     restart: unless-stopped
@@ -22,13 +22,14 @@ services:
     
   wordpress:
     container_name: wordpress
-    build:
-      context: .
-      args: 
-        - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+    build: .
+    command: >
+      sh -c "bash /install-wp-tests.sh 'test_wordpress' 'root' 'wordpress' mysql 'latest'
+      && docker-entrypoint.sh php-fpm"
     volumes:
       - ./.wp_container_volume:/var/www/html
       - ../.:/var/www/html/wp-content/plugins/${PLUGIN_SLUG}
+      - ./install-wp-tests.sh:/install-wp-tests.sh
     restart: unless-stopped
     environment:
       - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
