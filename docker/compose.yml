@@ -15,12 +15,13 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
-      retries: 3
+      retries: 10
     
   wordpress:
     container_name: wordpress
     build: .
     command: sh /entrypoint.sh
+    tty: true
     volumes:
     
       # Entrypoint
@@ -32,7 +33,7 @@ services:
 
     restart: unless-stopped
     env_file:
-      - fileName
+      - .env
     depends_on:
       mysql:
         condition: service_healthy
