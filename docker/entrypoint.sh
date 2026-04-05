@@ -1,4 +1,5 @@
 #!/bin/sh
+
 set -e
 
 # 1. Roda o entrypoint original em background (copia arquivos, cria wp-config.php)
@@ -21,6 +22,15 @@ if ! wp core is-installed --allow-root; then
     --skip-email \
     --allow-root
 fi
+
+# Generate the plugin files
+wp scaffold plugin $PLUGIN_SLUG --allow-root --force
+
+cd wp-content/plugins/$PLUGIN_SLUG
+
+# Install composer dependencies
+composer require --dev phpunit/phpunit ^9.6
+composer install
 
 # 4. Traz o php-fpm pra frente
 wait $PID
